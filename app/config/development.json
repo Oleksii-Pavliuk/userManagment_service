@@ -6,9 +6,9 @@
   "pghost": "localhost",
   "pgport": 5433,
   "pgdatabase": "transactions_dev",
-  "mongostring": "mongodb://admin:RabbitMQconfigurationbypullingfromthesystem-UsersMongo@localhost:27017/users_dev",
-  "authhost": "auth-service",
+  "mongostring": "mongodb://localhost:27017/users_dev",
+  "authhost": "localhost",
   "authport": 8000,
   "jwtsecretkey": "my-secret-key",
-  "authapikey" : "vMXgTdKC.aLF91ftotfWkcCXuBxX9VVnJE4JUPvzy"
+  "authapikey" : "mprwGFiz.NgcPfW05ISP7oxX7REoeMSyFHLNBb92y"
 }
