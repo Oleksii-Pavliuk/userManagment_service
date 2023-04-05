@@ -10,5 +10,5 @@
   "authhost": "localhost",
   "authport": 8000,
   "jwtsecretkey": "my-secret-key",
-  "authapikey" : "mprwGFiz.NgcPfW05ISP7oxX7REoeMSyFHLNBb92y"
+  "authapikey" : "oyUMVzxh.m05zAZv2Tu0Xf0KwBINJhL6PNw00hzTS"
 }

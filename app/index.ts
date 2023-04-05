@@ -5,7 +5,7 @@ import Router from "express-promise-router";
 import config from "./config/config";
 import { connect } from "./db/mongo-connection";
 import { postgreQuery, postgreTransaction } from "./db/postgres-connection";
-import { register as registerConsul } from "./consul/consul";
+import { register as registerConsul } from "./consul/consul-connection";
 
 //Routes
 import { registerUser } from "./routes/register-user";

@@ -13,40 +13,60 @@ const JWT_SECRET_KEY = config.get("jwtsecretkey");
 ================== */
 export async function editUser(req, res) {
 	// Check request
-	let token : string = req.body.jwt;
-	let password : string = req.body.password;
-	let newPassword : string = req.body.new;
-	let confirmation : string= req.body.confirmation;
-	if (token == undefined || password == undefined || newPassword == undefined || confirmation == undefined) {
-		console.log(1)
+	let token: string = req.headers.authorization.split(' ')[1];
+	let password: string = req.body.password;
+	let newPassword: string = req.body.new;
+	let confirmation: string = req.body.confirmation;
+	if (
+		password == undefined ||
+		newPassword == undefined ||
+		confirmation == undefined
+	) {
+		console.log(1);
 		return res.status(400).send();
-	}if(newPassword !== confirmation){
-		console.log(2)
+	} else if (newPassword !== confirmation) {
+		console.log(2);
 		return res.status(400).send();
-	}if(newPassword == password){
-		console.log(3)
+	} else if (newPassword == password) {
+		console.log(3);
 		return res.status(400).send();
-	}if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/.test(password)){
-		console.log(4)
+	} else if (
+		!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/.test(
+			password
+		)
+	) {
+		console.log(4);
 		return res.status(400).send();
+	} else if (token == undefined) {
+		console.log()
+		return res.status(401).send();
 	}
 	console.log("Edit route");
 
-	let id : Number;
+	let id: Number;
+	console.log(token)
+	jwt.verify(token, JWT_SECRET_KEY, (err, decoded: { id: Number }) => {
+		console.log(decoded)
+		if (err) {
+			if (err.name === 'TokenExpiredError') {
+                // Token is expired
+                return res.status(403).send();
+              } else {
+                // Token is invalid
+                return res.status(401).send();
+              }
+		}
+		if (decoded) {
 
-	jwt.verify(token, JWT_SECRET_KEY , (err, decoded : {id : Number}) => {
-		if (err){
-			console.log(err)
-		}if(decoded){
-			id = decoded.id
+			id = decoded.id;
 		}
 	});
 
 	// Prepare and send request
 	const requestPath = `http://${AUTH_SERVICE_URI}:${AUTH_SERVICE_PORT}/user/`;
 	const body = JSON.stringify({
-		"id" : id ,
-		"password" : password
+		id: id,
+		password: password,
 	});
 
 	const request = http.request(
@@ -82,7 +102,7 @@ export async function editUser(req, res) {
 					console.log(JSON.parse(data));
 					// Create and send token
 					jwt.sign(
-						{ "id": JSON.parse(data).id },
+						{ id: JSON.parse(data).id },
 						JWT_SECRET_KEY,
 						{ expiresIn: "2h" },
 						(err, token) => {
