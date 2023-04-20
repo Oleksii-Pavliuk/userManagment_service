@@ -1,49 +1,60 @@
 import express from "express";
 import cors from "cors";
 import Router from "express-promise-router";
+
 //Local modules
 import config from "./config/config";
-import { connect } from "./db/mongo-connection";
-import { postgreQuery, postgreTransaction } from "./db/postgres-connection";
-import { register as registerConsul } from "./consul/consul-connection";
-
-//Routes
-import { registerUser } from "./routes/register-user";
-import { loginUser } from "./routes/login-user";
-import { editUser } from "./routes/edit-user";
-import { deleteUser } from "./routes/delete-user"
+import { connectMongo } from "./db/mongo-connection";
+import { connectRedis } from "./db/redis-connect";
+import { register as registerConsul } from "./observability/consul-connection";
+import { register as registerOpenTelemetry } from "./observability/opentelemetry-connection";
+import { handleOptions } from "./middleware/options";
+import { authenticateToken } from "./middleware/auth-token";
+import { corsOptions } from "./middleware/cors";
 
 /* =================
    SERVER SETUP
 ================== */
+
+const PORT = config.get("port");
 const app = express();
 const router = Router();
-
-//Getting convict vars
-const PORT = config.get("port");
-const CORS_ORIGIN = config.get("origin");
-const corsOptions: cors.CorsOptions = {
-	origin: CORS_ORIGIN as unknown as string,
-	optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
-const mongoUsers = connect;
-
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(router);
+router.use(handleOptions);
+connectMongo();
+connectRedis();
 
 /* ======
    ROUTES
 ========*/
 
 // Auth service routes
+import { registerUser } from "./routes/register-user";
+import { loginUser } from "./routes/login-user";
+import { editUser } from "./routes/edit-user";
+import { deleteUser } from "./routes/delete-user";
 router.put("/register", registerUser);
 router.post("/login", loginUser);
-router.patch("/edit", editUser);
-router.post("/delete", deleteUser)
+router.patch("/edit", authenticateToken, editUser);
+router.post("/delete", authenticateToken, deleteUser);
 
+//KYC routes
+import { level1KYCadd } from "./routes/level1KYC-add";
+import { level1KYCget } from "./routes/level1KYC-get";
+import { level2KYCadd } from "./routes/level2KYC-add";
+import { level2KYCget } from "./routes/level2KYC-get";
+router.get("/level1", authenticateToken, level1KYCget);
+router.post("/level1", authenticateToken, level1KYCadd);
+router.get("/level2", authenticateToken, level2KYCget);
+router.post("/level2", authenticateToken, level2KYCadd);
 
-// Consul health checks
+//Account view route
+import { accountView } from "./routes/account-view";
+router.get("/account", authenticateToken, accountView);
+
+// Consul health checks route
 router.get("/health", (_req, res) => {
 	res.sendStatus(200);
 });
@@ -53,4 +64,6 @@ router.get("/health", (_req, res) => {
 ================== */
 app.listen(PORT, () => {
 	console.log(`Server started on port ${PORT}`);
+	// registerOpenTelemetry();
+	registerConsul();
 });

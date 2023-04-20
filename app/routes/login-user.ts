@@ -1,17 +1,17 @@
 import http from "http";
-import jwt from "jsonwebtoken";
+import { Request, Response } from "express";
 // Local modules
 import config from "../config/config";
+import {generateAccessToken} from "../middleware/gen-token"
 // Convict vars
 const AUTH_SERVICE_URI = config.get("authhost");
 const AUTH_SERVICE_PORT = config.get("authport");
 const AUTH_SERVICE_API_KEY = config.get("authapikey");
-const JWT_SECRET_KEY = config.get("jwtsecretkey");
 
 /* =================
    ROUTE HANDLER
 ================== */
-export async function loginUser(req, res) {
+export async function loginUser(req : Request, res : Response) {
 	// Check request
 	let username = req.body.username;
 	let password = req.body.password;
@@ -23,6 +23,7 @@ export async function loginUser(req, res) {
 	// Prepare and send request
 	const requestPath = `http://${AUTH_SERVICE_URI}:${AUTH_SERVICE_PORT}/user/`;
 	const body = JSON.stringify(req.body);
+	console.log(body)
 	const request = http.request(
 		requestPath,
 		{
@@ -55,31 +56,22 @@ export async function loginUser(req, res) {
 					console.log("Success:");
 					console.log(JSON.parse(data));
 					// Create and send token
-					jwt.sign(
-						{ "id" : JSON.parse(data).id },
-						JWT_SECRET_KEY,
-						{ expiresIn: "2h" },
-						(err, token) => {
-							if (token) {
-								console.log("token: " + token);
-								return res.status(200).send({ jwt: token });
-							}
-							if (err) {
-								console.error(err);
-								return res.status(500).send();
-							}
-						}
-					);
+					let token = generateAccessToken(JSON.parse(data).id)
+					return res.status(200).send({ jwt: token });
 				} else {
-					console.log("Unexpected response with data!");
+					console.log("Unexpected response with data");
+					return res.status(500).send();
 				}
 			});
 		}
 	);
 	request.on("error", (error) => {
 		console.error(error);
+		return res.sendStatus(500);
 	});
 	request.write(body);
 	request.end();
 	console.log();
 }
+
+
