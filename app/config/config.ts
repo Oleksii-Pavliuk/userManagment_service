@@ -10,6 +10,7 @@ interface IConfigSchema {
 	pgdatabase: string;
 	pgpassword: string;
 	mongostring: string;
+	redisstring: string;
 	consulServiceName: string;
 	consulHost: string;
 	consulPort: number;
@@ -82,6 +83,14 @@ const config: convict.Config<IConfigSchema> = convict({
 		default: null,
 		env: "MONGOSTRING",
 		arg: "mongostring",
+		sensitive: true,
+	},	
+	redisstring: {
+		doc: "Connection string for redis DB",
+		format: String,
+		default: null,
+		env: "REDIS_STRING",
+		arg: "redisstring",
 		sensitive: true,
 	},
 	consulServiceName: {

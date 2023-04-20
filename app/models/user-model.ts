@@ -1,79 +1,27 @@
-import mongoose from 'mongoose';
-
-
-
-// USER MODEL WILL BE DECLARED BELOW DOCUMENT AND ADRRESS SCHEMA
-
-// Document of user
-export const documentSchema = new mongoose.Schema({
-  type: {
-    type: String,
-    required: true
-  },
-  id: {
-    type: String,
-    required: true
-  },
-  DOB: {
-      type: Date,
-      required: true
-  },
-  issue: {
-    type: Date,
-    required: true
-  },
-  expiration: {
-    type: Date,
-    required: false
-  },
-  country: {
-    type: String,
-    required: true
-  },
-});
-
-
-// Adress of user 
-export const AddressSchema = new mongoose.Schema({
-    street: {
-      type: String,
-      required: true
-    },
-    city: {
-      type: String,
-      required: true
-    },
-    state: {
-      type: String,
-      required: true
-    },
-    country: {
-      type: String,
-      required: true
-    },
-    zip: {
-      type: String,
-      required: true
-    },
-  });
-
-
+import {Schema , model}from 'mongoose';
 
 
 // User model
-const userSchema = new mongoose.Schema({
- // we will test this later _id: mongoose.Schema.Types.ObjectId,
+const userSchema = new Schema({
   id: {
     type: Number,
     required: true,
+    doc: "ID of user(shared between all databases)"
+  },
+  level:{
+    type: Number,
+    required: false,
+    doc: "Level of access(KYC): 0(email,password); 1(user model data); 2(KYC model data)"
   },
   balance: {
     type: Number,
-    required: true,
+    required: false,
+    doc: "Fiat balance"
   },
   ETH: {
     type: Number,
-    required: false
+    required: false,
+    doc: "ETH balance"
   },
   firstName: {
     type: String,
@@ -83,10 +31,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  document: {
-    type:documentSchema,
-    required: true
-  },
   email: {
     type: String,
     required: true
@@ -94,13 +38,7 @@ const userSchema = new mongoose.Schema({
   phone:{
     type: String,
     required: true
-  },
-  address: {
-    type: AddressSchema,
-    required: true
   }
 });
 
-const User = mongoose.model('users', userSchema);
-
-module.exports = User;
+export const User = model('users', userSchema);

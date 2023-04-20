@@ -1,17 +1,17 @@
 import http from "http";
-import jwt from "jsonwebtoken";
+import { Request, Response } from "express";
 // Local modules
 import config from "../config/config";
+import {generateAccessToken} from "../middleware/gen-token"
 // Convict vars
 const AUTH_SERVICE_URI = config.get("authhost");
 const AUTH_SERVICE_PORT = config.get("authport");
 const AUTH_SERVICE_API_KEY = config.get("authapikey");
-const JWT_SECRET_KEY = config.get("jwtsecretkey");
 
 /* =================
    ROUTE HANDLER
 ================== */
-export async function editUser(req, res) {
+export async function editUser(req : Request, res : Response) {
 	// Check request
 	let token: string = req.headers.authorization.split(' ')[1];
 	let password: string = req.body.password;
@@ -43,24 +43,7 @@ export async function editUser(req, res) {
 	}
 	console.log("Edit route");
 
-	let id: Number;
-	console.log(token)
-	jwt.verify(token, JWT_SECRET_KEY, (err, decoded: { id: Number }) => {
-		console.log(decoded)
-		if (err) {
-			if (err.name === 'TokenExpiredError') {
-                // Token is expired
-                return res.status(403).send();
-              } else {
-                // Token is invalid
-                return res.status(401).send();
-              }
-		}
-		if (decoded) {
-
-			id = decoded.id;
-		}
-	});
+	let id = req.body.tokenUser;
 
 	// Prepare and send request
 	const requestPath = `http://${AUTH_SERVICE_URI}:${AUTH_SERVICE_PORT}/user/`;
@@ -101,21 +84,8 @@ export async function editUser(req, res) {
 					console.log("Success:");
 					console.log(JSON.parse(data));
 					// Create and send token
-					jwt.sign(
-						{ id: JSON.parse(data).id },
-						JWT_SECRET_KEY,
-						{ expiresIn: "2h" },
-						(err, token) => {
-							if (token) {
-								console.log("token: " + token);
-								return res.status(200).send({ jwt: token });
-							}
-							if (err) {
-								console.error(err);
-								return res.status(500).send();
-							}
-						}
-					);
+					let token = generateAccessToken(JSON.parse(data).id)
+					return res.status(200).send({ jwt: token });
 				} else {
 					console.log("Unexpected response with data!");
 				}
@@ -124,6 +94,7 @@ export async function editUser(req, res) {
 	);
 	request.on("error", (error) => {
 		console.error(error);
+		return res.sendStatus(500);
 	});
 	request.write(body);
 	request.end();

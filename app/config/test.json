@@ -3,12 +3,12 @@
   "origin": "*",
   "pguser": "postgres",
   "pgpassword": "postgres",
-  "pghost": "transactions-db-postgres",
+  "pghost": "localhost",
   "pgport": 5433,
-  "pgdatabase": "transactions_dev",
-  "mongostring": "mongodb://localhost:27017/users_dev",
+  "pgdatabase": "transactions_test",
+  "mongostring": "mongodb://localhost:27017/users_test",
   "redisstring": "redis://users-redis:6379",
-  "authhost": "auth-service",
+  "authhost": "localhost",
   "authport": 8000,
   "jwtsecretkey": "my-secret-key"
 }

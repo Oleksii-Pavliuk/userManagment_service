@@ -1,8 +1,10 @@
-import { response } from "express";
+import { Request, Response } from "express";
 import http from "http";
 import jwt from "jsonwebtoken";
+
 // Local modules
 import config from "../config/config";
+import {generateAccessToken} from "../middleware/gen-token"
 // Convict vars
 const AUTH_SERVICE_URI = config.get("authhost");
 const AUTH_SERVICE_PORT = config.get("authport");
@@ -12,7 +14,7 @@ const JWT_SECRET_KEY = config.get("jwtsecretkey");
 /* =================
    ROUTE HANDLER
 ================== */
-export async function deleteUser(req, res) {
+export async function deleteUser(req : Request, res : Response) {
 	// Check request
 	let token: string = req.headers.authorization.split(' ')[1];
 	let username: string = req.body.username;
@@ -24,7 +26,7 @@ export async function deleteUser(req, res) {
 	}
 	console.log("Delete route");
 
-	let id: Number;
+	let id = req.body.tokenUser
 
 	jwt.verify(token, JWT_SECRET_KEY, (err, decoded: { id: Number }) => {
 		if (err) {
@@ -66,6 +68,7 @@ export async function deleteUser(req, res) {
 	);
 	request.on("error", (error) => {
 		console.error(error);
+		return res.sendStatus(500);
 	});
 	request.write(body);
 	request.end()
@@ -104,6 +107,7 @@ export async function deleteUser(req, res) {
 		);
 		request.on("error", (error) => {
 			console.error(error);
+			return res.sendStatus(500);
 		});
 		request.write(body);
 		request.end();

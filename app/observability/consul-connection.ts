@@ -39,6 +39,7 @@ const doGracefulShutdown = async () => {
 export const register = async () => {
 	if (!consul) return;
 	await consul.agent.service.register(serviceDefinition);
+	console.log("Registred with Consul")
 	process.on("SIGTERM", doGracefulShutdown);
 	process.on("SIGINT", doGracefulShutdown);
 };
