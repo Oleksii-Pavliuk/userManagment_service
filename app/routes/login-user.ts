@@ -23,6 +23,7 @@ export async function loginUser(req : Request, res : Response) {
 	// Prepare and send request
 	const requestPath = `http://${AUTH_SERVICE_URI}:${AUTH_SERVICE_PORT}/user/`;
 	const body = JSON.stringify(req.body);
+	console.log(body)
 	const request = http.request(
 		requestPath,
 		{

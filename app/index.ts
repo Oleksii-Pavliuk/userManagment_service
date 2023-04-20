@@ -64,6 +64,6 @@ router.get("/health", (_req, res) => {
 ================== */
 app.listen(PORT, () => {
 	console.log(`Server started on port ${PORT}`);
-	registerOpenTelemetry();
+	// registerOpenTelemetry();
 	registerConsul();
 });

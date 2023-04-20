@@ -50,6 +50,7 @@ export async function deleteUser(req : Request, res : Response) {
 		username: username,
 		password: password,
 	});
+	console.log(body)
 	const request = http.request(
 		path,
 		{
@@ -61,6 +62,20 @@ export async function deleteUser(req : Request, res : Response) {
 			},
 		},
 		(response) => {
+			console.log(`statusCode: ${response.statusCode}`);
+			if (response.statusCode == 400) {
+				console.log("Wrong credentials :\n");
+				console.log(req.body);
+				return res.status(400).send();
+			}
+			if (response.statusCode == 500) {
+				console.log("Auth service error :\n");
+				console.log(req.body);
+				return res.status(400).send();
+			}
+			if (response.statusCode != 201) {
+				console.log("Unexpected response!");
+			}
 			response.on("data", (data) => {
 				JSON.parse(data).id === id ? sendRequest() : res.status(400).send();
 			});

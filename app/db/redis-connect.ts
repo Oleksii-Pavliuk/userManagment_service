@@ -13,7 +13,7 @@ export const connectRedis = async () => {
     redis.connect().then(() =>{
 		console.log("Connected to the redis");}
         ).catch((err) => {
-		    console.error("Error postgres: ", err);
+		    console.error("Error redis: ", err);
         })
 };
 
