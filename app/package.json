@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "NODE_ENV=development nodemon  --require ./observability/opentelemetry-connection.ts index.ts",
+    "dev": "NODE_ENV=test nodemon  --require ./opentelemetry-tracing.ts index.ts",
     "start": "node dist/index.js"
   },
   "author": "Oleksii Pavliuk",

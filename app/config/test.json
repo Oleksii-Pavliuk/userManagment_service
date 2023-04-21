@@ -3,12 +3,14 @@
   "origin": "*",
   "pguser": "postgres",
   "pgpassword": "postgres",
-  "pghost": "localhost",
+  "pghost": "loaclhost",
   "pgport": 5433,
-  "pgdatabase": "transactions_test",
-  "mongostring": "mongodb://localhost:27017/users_test",
-  "redisstring": "redis://users-redis:6379",
+  "pgdatabase": "users-test",
+  "mongostring": "mongodb://localhost:27017/users_dev",
+  "redisstring": "redis://localhost:6379",
   "authhost": "localhost",
   "authport": 8000,
-  "jwtsecretkey": "my-secret-key"
+  "jaegerHost" : "localhost",
+  "jwtsecretkey": "my-secret-key",
+  "authapikey" : "HfCFdjdv.nKKybpOaaHG6xEfD6t0dkVvAylWkkM3h"
 }

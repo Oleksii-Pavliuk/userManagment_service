@@ -5,12 +5,12 @@
   "pgpassword": "postgres",
   "pghost": "transactions-db-postgres",
   "pgport": 5433,
-  "pgdatabase": "localhost",
-  "mongostring": "mongodb://localhost:27017/users_dev",
-  "redisstring": "redis://localhost:6379",
-  "authhost": "localhost",
+  "pgdatabase": "users_dev",
+  "mongostring": "mongodb://users-db-mongo:27017/users_dev",
+  "redisstring": "redis://users-redis:6379",
+  "authhost": "auth-service",
   "authport": 8000,
-  "consulHost" : "localhost",
-  "jwtsecretkey": "my-secret-key",
-  "authapikey" : "HfCFdjdv.nKKybpOaaHG6xEfD6t0dkVvAylWkkM3h"
+  "consulHost" : "consul-client",
+  "jaegerHost" : "jaeger",
+  "jwtsecretkey": "my-secret-key"
 }

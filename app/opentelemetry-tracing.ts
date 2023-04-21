@@ -4,10 +4,10 @@ import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 import { Resource} from "@opentelemetry/resources";
 
-import config from "../config/config"
+import config from "./config/config"
 
-const JAEGER_HOST = config.get()
-const JAEGER_PORT = config.get()
+const JAEGER_HOST = config.get("jaegerHost")
+const JAEGER_PORT = config.get("jaegerPort")
 
 
 const resource : any  = new Resource({

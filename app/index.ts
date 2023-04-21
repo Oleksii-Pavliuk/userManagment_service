@@ -6,7 +6,7 @@ import Router from "express-promise-router";
 import config from "./config/config";
 import { connectMongo } from "./db/mongo-connection";
 import { connectRedis } from "./db/redis-connect";
-import { register as registerConsul } from "./observability/consul-connection";
+import { register as registerConsul } from "./consul/consul-connection";
 import { handleOptions } from "./middleware/options";
 import { authenticateToken } from "./middleware/auth-token";
 import { corsOptions } from "./middleware/cors";
