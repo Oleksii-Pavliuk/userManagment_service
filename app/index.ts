@@ -7,7 +7,6 @@ import config from "./config/config";
 import { connectMongo } from "./db/mongo-connection";
 import { connectRedis } from "./db/redis-connect";
 import { register as registerConsul } from "./observability/consul-connection";
-import { register as registerOpenTelemetry } from "./observability/opentelemetry-connection";
 import { handleOptions } from "./middleware/options";
 import { authenticateToken } from "./middleware/auth-token";
 import { corsOptions } from "./middleware/cors";
@@ -64,6 +63,5 @@ router.get("/health", (_req, res) => {
 ================== */
 app.listen(PORT, () => {
 	console.log(`Server started on port ${PORT}`);
-	// registerOpenTelemetry();
 	registerConsul();
 });

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "NODE_ENV=development nodemon index.ts",
+    "dev": "NODE_ENV=development nodemon  --require ./observability/opentelemetry-connection.ts index.ts",
     "start": "node dist/index.js"
   },
   "author": "Oleksii Pavliuk",
@@ -28,6 +28,7 @@
     "@opentelemetry/auto-instrumentations-node": "^0.36.5",
     "@opentelemetry/exporter-trace-otlp-http": "^0.36.0",
     "@opentelemetry/resources": "^1.10.0",
+    "@opentelemetry/sdk-metrics": "^1.12.0",
     "@opentelemetry/sdk-node": "^0.36.1",
     "@opentelemetry/semantic-conventions": "^1.10.0",
     "consul": "^1.2.0",

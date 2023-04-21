@@ -14,6 +14,8 @@ interface IConfigSchema {
 	consulServiceName: string;
 	consulHost: string;
 	consulPort: number;
+	jaegerHost: string;
+	jaegerPort: number;
 	authhost: string;
 	authport: number;
 	authapikey: string;
@@ -23,7 +25,7 @@ interface IConfigSchema {
 const config: convict.Config<IConfigSchema> = convict({
 	env: {
 		doc: "Environoment for application",
-		format: ["development", "production"],
+		format: ["development", "production", "test"],
 		default: "development",
 		env: "NODE_ENV",
 	},
@@ -100,16 +102,30 @@ const config: convict.Config<IConfigSchema> = convict({
 		env: "CONSUL_SERVICE_NAME",
 	},
 	consulHost: {
-		doc: "The host where the Consul client runs",
+		doc: "The host where the Consul server runs",
 		format: String,
 		default: "consul-client",
 		env: "CONSUL_HOST",
+		arg: "consulhost"
 	},
 	consulPort: {
 		doc: "The port for the Consul client",
 		format: "port",
 		default: 8500,
 		env: "CONSUL_PORT",
+	},	
+	jaegerHost: {
+		doc: "The host where the Jaeger UI",
+		format: String,
+		default: "jaeger",
+		env: "JAEGER_HOST",
+		arg: "jaegerhost"
+	},
+	jaegerPort: {
+		doc: "The port for Jaeger UI",
+		format: "port",
+		default: 4318,
+		env: "JAEGER_PORT",
 	},
 	authhost: {
 		doc: "Server of auhtentication service",

@@ -4,19 +4,21 @@ import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 import { Resource} from "@opentelemetry/resources";
 
+import config from "../config/config"
 
-export const register = () => {
+const JAEGER_HOST = config.get()
+const JAEGER_PORT = config.get()
 
-  const resource : any  = new Resource({
-      [SemanticResourceAttributes.SERVICE_NAME]: "UserManagmentSERVICE",
-    });
-  const sdk = new NodeSDK({
-      resource  ,
-      traceExporter: new OTLPTraceExporter({ headers: {} }),
-      instrumentations: [getNodeAutoInstrumentations()],
-    });
 
-  sdk.start()
-  console.log("Registred with Jaeger")
-}
+const resource : any  = new Resource({
+    [SemanticResourceAttributes.SERVICE_NAME]: "UserManagmentSERVICE",
+  });
+const sdk = new NodeSDK({
+    resource  ,
+    traceExporter: new OTLPTraceExporter({url: `http://${JAEGER_HOST}:${JAEGER_PORT}/v1/traces`,headers: {}, concurrencyLimit: 10 }),
+    instrumentations: [getNodeAutoInstrumentations()],
+  });
+
+sdk.start()
+console.log("Registred with Open telemetry")
 
