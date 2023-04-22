@@ -11,7 +11,7 @@ const JAEGER_PORT = config.get("jaegerPort")
 
 
 const resource : any  = new Resource({
-    [SemanticResourceAttributes.SERVICE_NAME]: "UserManagmentSERVICE",
+    [SemanticResourceAttributes.SERVICE_NAME]: "User Managment SERVICE",
   });
 const sdk = new NodeSDK({
     resource  ,
