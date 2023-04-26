@@ -1,27 +1,24 @@
+export class NewTransactionEvent {
+	queueName: string;
+	destination: string;
+	type: string;
+	transaction: object;
 
-export class NewMessageEvent {
-    queueName: string;
-    destination : string;
-    type: string;
-    transaction: object;
-  
-    constructor({destination,
-      type,transaction}){
-    this.queueName = "transactions";
-    this.destination = destination;
-    this.type = type;
-    this.transaction = transaction
-      }
-  
-    serialize() : Buffer {
-      return Buffer.from(JSON.stringify({
-          queue_name: this.queueName,
-          destination: this.destination,
-          type: this.type,
-          transaction : this.transaction
-        })
-      );
-    };
-  }
-  
-  
+	constructor({ destination, transactionJson}) {
+		this.queueName = "transactions";
+		this.destination = destination;
+		this.type = "transaction";
+		this.transaction = transactionJson;
+	}
+
+	serialize(): Buffer {
+		return Buffer.from(
+			JSON.stringify({
+				queue_name: this.queueName,
+				destination: this.destination,
+				type: this.type,
+				transaction: this.transaction,
+			})
+		);
+	}
+}

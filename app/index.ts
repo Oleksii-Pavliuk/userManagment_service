@@ -39,19 +39,24 @@ router.post("/login", loginUser);
 router.patch("/edit", authenticateToken, editUser);
 router.post("/delete", authenticateToken, deleteUser);
 
-//KYC routes
+//Account routes
 import { level1KYCadd } from "./routes/level1KYC-add";
 import { level1KYCget } from "./routes/level1KYC-get";
 import { level2KYCadd } from "./routes/level2KYC-add";
 import { level2KYCget } from "./routes/level2KYC-get";
-router.get("/level1", authenticateToken, level1KYCget);
-router.post("/level1", authenticateToken, level1KYCadd);
-router.get("/level2", authenticateToken, level2KYCget);
-router.post("/level2", authenticateToken, level2KYCadd);
-
-//Account view route
-import { accountView } from "./routes/account-view";
+import { accountView } from "./routes/account-abstract-view";
+router.get("/kyclevel1", authenticateToken, level1KYCget);
+router.post("/kyclevel1", authenticateToken, level1KYCadd);
+router.get("/kyclevel2", authenticateToken, level2KYCget);
+router.post("/kyclevel2", authenticateToken, level2KYCadd);
 router.get("/account", authenticateToken, accountView);
+
+
+// Fiat routes
+router.post("/depositfiat", authenticateToken)
+
+
+
 
 // Consul health checks route
 router.get("/health", (_req, res) => {

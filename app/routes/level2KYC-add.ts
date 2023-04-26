@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 // Local modules
 import {UserKYC} from "../models/userKYC-model"
-import { usersRedisRepo } from "../db/redis-connect"
+import {usersRedisRepo} from "../db/redis-connect"
  
 /* =================
    ROUTE HANDLER
