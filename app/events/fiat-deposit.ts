@@ -2,7 +2,6 @@
 export class NewFiatStripeDepositEvent {
     queueName: string;
     type: string;
-    amount: number;
     lineItems: object[];
     userId: string; 
 
