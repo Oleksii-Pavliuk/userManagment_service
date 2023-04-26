@@ -1,16 +1,18 @@
 {
   "port": 3000,
   "origin": "*",
+  "jwtsecretkey": "my-secret-key",
   "pguser": "postgres",
   "pgpassword": "postgres",
   "pghost": "transactions-db-postgres",
   "pgport": 5433,
-  "pgdatabase": "users_dev",
+  "pgdatabase": "users-dev",
   "mongostring": "mongodb://users-db-mongo:27017/users_dev",
   "redisstring": "redis://users-redis:6379",
+  "amqphost": "rabbitmq",
+  "amqpport": 5672,
   "authhost": "auth-service",
   "authport": 8000,
   "consulHost" : "consul-client",
-  "jaegerHost" : "jaeger",
-  "jwtsecretkey": "my-secret-key"
+  "jaegerHost" : "jaeger"
 }

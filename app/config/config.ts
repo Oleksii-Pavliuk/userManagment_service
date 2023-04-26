@@ -11,6 +11,8 @@ interface IConfigSchema {
 	pgpassword: string;
 	mongostring: string;
 	redisstring: string;
+	amqphost: string;
+	amqpport: number;
 	consulServiceName: string;
 	consulHost: string;
 	consulPort: number;
@@ -26,7 +28,7 @@ const config: convict.Config<IConfigSchema> = convict({
 	env: {
 		doc: "Environoment for application",
 		format: ["development", "production", "test"],
-		default: "development",
+		default: "test",
 		env: "NODE_ENV",
 	},
 	port: {
@@ -94,6 +96,20 @@ const config: convict.Config<IConfigSchema> = convict({
 		env: "REDIS_STRING",
 		arg: "redisstring",
 		sensitive: true,
+	},
+	amqphost: {
+		doc: "host for the amqp broker",
+		format: String,
+		default: null,
+		env: "AMQPHOST",
+		arg: "amqphost",
+	},
+	amqpport: {
+		doc: "port for the amqp broker",
+		format: "port",
+		default: null,
+		env: "AMQPPORT",
+		arg: "amqpport",
 	},
 	consulServiceName: {
 		doc: "The name by which the service is registered in Consul. If not specified, the service is not registered",
