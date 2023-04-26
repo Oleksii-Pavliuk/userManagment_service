@@ -53,7 +53,8 @@ router.get("/account", authenticateToken, accountView);
 
 
 // Fiat routes
-router.post("/depositfiat", authenticateToken)
+import {depositFiatStripe} from "./routes/deposit-fiat"
+router.post("/depositfiat", authenticateToken,depositFiatStripe)
 
 
 
