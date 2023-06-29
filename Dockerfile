@@ -12,5 +12,5 @@ COPY /app /app
 RUN npm run build
 
 # Set the command to run the compiled JavaScript code
-CMD [ "node","--require ./opentelemetry-tracing.js" "dist/index.js" ]
+CMD [ "node","--require","./dist/opentelemetry-tracing.js","dist/index.js" ]
 

@@ -17,6 +17,7 @@ LICENSE
 *.log
 node_modules
 .npm*
+dist/
 
 # OS files #
 #############

@@ -1,10 +1,12 @@
+// Most likely wont be used here
+
 export class NewTransactionEvent {
 	queueName: string;
 	destination: string;
 	type: string;
 	transaction: object;
 
-	constructor({ destination, transactionJson}) {
+	constructor({ destination, transactionJson} : {destination: string, transactionJson: {}}) {
 		this.queueName = "transactions";
 		this.destination = destination;
 		this.type = "transaction";

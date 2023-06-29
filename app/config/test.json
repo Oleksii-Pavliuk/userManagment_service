@@ -14,6 +14,6 @@
   "authhost": "localhost",
   "authport": 8000,
   "authapikey": "HfCFdjdv.nKKybpOaaHG6xEfD6t0dkVvAylWkkM3h",
-  "consulHost" : "loalhost",
+  "consulHost" : "localhost",
   "jaegerHost" : "localhost"
 }

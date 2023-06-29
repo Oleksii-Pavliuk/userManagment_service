@@ -1,14 +1,14 @@
 
-export class NewFiatStripeDepositEvent {
+export class NewFiatDepositEvent {
     queueName: string;
     type: string;
-    lineItems: object[];
+    item: object;
     userId: string; 
 
-    constructor(userId: string,lineItems : object[]){
-    this.queueName = "stripeDeposits";
+    constructor(userId: string,item : {}){
+    this.queueName = "deposits";
     this.type = "deposit";
-    this.lineItems = lineItems;
+    this.item = item;
     this.userId = userId
       }
   
@@ -16,7 +16,7 @@ export class NewFiatStripeDepositEvent {
       return Buffer.from(JSON.stringify({
           queue_name: this.queueName,
           type: this.type,
-          lineItems : this.lineItems,
+          item : this.item,
           user_id : this.userId
         })
       );
