@@ -10,6 +10,8 @@ interface IConfigSchema {
 	pgdatabase: string;
 	pgpassword: string;
 	mongostring: string;
+	mongouser: string;
+	mongopassword: string;
 	redisstring: string;
 	amqphost: string;
 	amqpport: number;
@@ -87,6 +89,22 @@ const config: convict.Config<IConfigSchema> = convict({
 		default: null,
 		env: "MONGOSTRING",
 		arg: "mongostring",
+		sensitive: true,
+	},	
+	mongouser: {
+		doc: "Connection username for mongoDB",
+		format: String,
+		default: null,
+		env: "MONGOUSER",
+		arg: "mongouser",
+		sensitive: true,
+	},	
+	mongopassword: {
+		doc: "Connection password for mongoDB",
+		format: String,
+		default: null,
+		env: "MONGOPASSWORD",
+		arg: "mongopassword",
 		sensitive: true,
 	},	
 	redisstring: {

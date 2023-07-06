@@ -8,12 +8,14 @@
   "pgport": 5433,
   "pgdatabase": "users-test",
   "mongostring": "mongodb://localhost:27017/users_dev",
+  "mongouser": "user",
+  "mongopassword": "password",
   "redisstring": "redis://localhost:6379",
   "amqphost": "localhost",
   "amqpport": 5672,
   "authhost": "localhost",
   "authport": 8000,
-  "authapikey": "HfCFdjdv.nKKybpOaaHG6xEfD6t0dkVvAylWkkM3h",
+  "authapikey": "9MzrLaKx.Owa4rrx7OlaaTAC0KOcnywRYnLCYLony",
   "consulHost" : "localhost",
   "jaegerHost" : "localhost"
 }

@@ -7,7 +7,7 @@ import {User} from "../models/user-model"
 ================== */
 export async function level1KYCget(req : Request, res : Response) {
     let id = req.body.tokenUser
-    User.findById(id)
+    User.find({id: id})
 	    .then((user) => {
             if(!user){
                 return res.sendStatus(404)
