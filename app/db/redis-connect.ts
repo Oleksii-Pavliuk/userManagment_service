@@ -2,7 +2,7 @@ import { createClient } from 'redis';
 import { Repository } from 'redis-om'
 
 import config from "../config/config";
-import {abstractUserSchema} from "../models/abstract-user-model"
+import {abstractUserSchema} from "../models/redis-user-model"
 
 const REDIS_STRING = config.get('redisstring')
 

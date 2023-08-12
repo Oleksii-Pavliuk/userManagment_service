@@ -5,7 +5,6 @@ import config from "../config/config";
 const CONNECTION_STRING = config.get("mongostring");
 const CONNECTION_USERNAME = config.get("mongouser");
 const CONNECTION_PASSWORD = config.get("mongopassword");
-console.log(CONNECTION_USERNAME, CONNECTION_PASSWORD);
 
 export const connectMongo = () => mongoose
 	.connect(CONNECTION_STRING,  {

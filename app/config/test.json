@@ -15,7 +15,7 @@
   "amqpport": 5672,
   "authhost": "localhost",
   "authport": 8000,
-  "authapikey": "9MzrLaKx.Owa4rrx7OlaaTAC0KOcnywRYnLCYLony",
+  "authapikey": "0dmzGT5Z.ViYNNiGZnG0KyhfxlSN9DPTGnQHqMB3e",
   "consulHost" : "localhost",
   "jaegerHost" : "localhost"
 }

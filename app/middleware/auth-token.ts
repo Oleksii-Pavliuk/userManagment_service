@@ -18,9 +18,7 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
     const token = authHeader && authHeader.split(' ')[1]
     if (token == null) return res.sendStatus(401)
   
-    console.log(req.body)
     jwt.verify(token, ACCESS_TOKEN, (err: VerifyErrors | null, user: { id: string }) => {
-      console.log(err)
       if (err) return res.sendStatus(403)
       req.body.tokenUser = user.id
       next()

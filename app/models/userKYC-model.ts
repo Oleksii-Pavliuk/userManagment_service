@@ -51,7 +51,7 @@ export const AddressSchema = new Schema({
     },
     state: {
       type: String,
-      required: true,
+      required: false,
       doc: "State of living"
     },
     country: {
