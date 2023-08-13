@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 // Local modules
-import {usersRedisRepo} from "../db/redis-connect"
-import { AbstractUser } from "../models/redis-user-model";
+import  redisClient, {AbstractUser}  from "../db/redis-connect"
 import { level1KYCget } from "./level1KYC-get";
 
 /* =================
@@ -10,15 +9,14 @@ import { level1KYCget } from "./level1KYC-get";
 export async function accountView(req : Request, res : Response) {
   const id : string = req.body.tokenUser
   try {
-    let userEntity = await usersRedisRepo.search().where('id').equals(id).return.first();
-    if (!userEntity.id){
-      console.log(userEntity)
-      console.log('going further')
+    let entity = await redisClient.get(id)
+    if (!entity){
       level1KYCget(req,res)
     }else{
-      console.log(userEntity)
+      let userEntity : AbstractUser = JSON.parse(entity);
       let userAccount : AbstractUser = {
           id: userEntity.id as number,
+          username: userEntity.username as string,
           level: userEntity.level as 0 | 1 | 2,
           balance: userEntity.balance as number,
           ETH: userEntity.ETH as number,

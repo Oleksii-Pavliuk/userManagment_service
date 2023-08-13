@@ -5,7 +5,7 @@ import Router from "express-promise-router";
 //Local modules
 import config from "./config/config";
 import { connectMongo } from "./db/mongo-connection";
-import { connectRedis } from "./db/redis-connect";
+import {connectRedis} from "./db/redis-connect";
 import { register as registerConsul } from "./consul/consul-connection";
 import { handleOptions } from "./middleware/options";
 import { authenticateToken } from "./middleware/auth-token";

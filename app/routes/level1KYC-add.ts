@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 // Local modules
 import { User } from "../models/user-model";
-import {usersRedisRepo} from "../db/redis-connect";
+import  redisClient, {AbstractUser}  from "../db/redis-connect"
 
 /* =================
    ROUTE HANDLER
@@ -13,6 +13,7 @@ export async function level1KYCadd(req: Request, res: Response) {
     // If not - create
     if (!user) {
       try {
+        req.body.level = 1
         const user = new User(req.body);
         await user.save()
       } catch (err) {
@@ -21,13 +22,17 @@ export async function level1KYCadd(req: Request, res: Response) {
       }
     }
     try {
-      // Update level of user
-      let abstractUser = await usersRedisRepo.search().where('id').equals(id).return.all();
-
-      abstractUser = req.body;
-      console.log(abstractUser)
-      abstractUser[0].level = 1;
-      usersRedisRepo.save(abstractUser[0]).then((userEntity) => {
+      // Update level and username of user
+      let entity = await redisClient.get(id);
+      let abstractUser : AbstractUser = JSON.parse(entity)
+      if (!abstractUser.level || abstractUser.level < 1) {
+        console.log('here')
+        console.log(abstractUser)
+        abstractUser.level = 1;
+      }
+      
+      abstractUser.username = req.body.username 
+      redisClient.set(id,JSON.stringify(abstractUser)).then((userEntity) => {
         console.log(userEntity)
         return res.sendStatus(205);
       }).catch((err) => {

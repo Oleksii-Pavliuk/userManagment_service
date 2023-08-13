@@ -8,6 +8,10 @@ const userSchema = new Schema({
     required: true,
     doc: "ID of user(shared between all databases)"
   },
+  username :{
+    type: String,
+    required: true
+  },
   level:{
     type: Number,
     required: false,

@@ -13,7 +13,7 @@ export const connectMongo = () => mongoose
 		"pass": CONNECTION_PASSWORD
 	  })
 	.then(() => {
-		console.log("Connected to the mongo");
+		console.log("Connected to Mongo");
 	})
 	.catch((err) => {
 		console.error("Error mongo: ", err);
