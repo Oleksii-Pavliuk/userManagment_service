@@ -11,23 +11,19 @@ import { Request, Response } from "express";
 ================== */
 
 export async function paymentIntent(req: Request, res: Response) {
-    const id : string = req.body.tokenUser;
-    const currency : string = req.body.currency;
-    const amount = req.body.amount;
-    const quantity = req.body.quantity;
+  const id : string =  "1";//req.body.tokenUser;
+  const currency : string = req.body.currency;
+  const amount = req.body.amount;
+  const quantity = req.body.quantity;
 
 
-    const item = {
-        currency: currency,
-        unit_amount: amount,
-        quantity: quantity
-          }
-
-
-    const clinetSecret = await dispatchEvent(new NewFiatDepositEvent(id,item))
-
-    res.status(200).send(clinetSecret);
-
+  const item = {
+    currency: currency,
+    unit_amount: amount,
+    quantity: quantity
+  }
+  const clinetSecret = await dispatchEvent(new NewFiatDepositEvent(id,item))
+  res.status(200).send(clinetSecret);
 }
 
 

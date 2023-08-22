@@ -54,7 +54,7 @@ router.get("/account", authenticateToken, accountView);
 
 // Fiat routes
 import {paymentIntent} from "./routes/payment-intent"
-router.post("/paymentIntent", authenticateToken,paymentIntent)
+router.post("/paymentIntent",paymentIntent)
 
 
 

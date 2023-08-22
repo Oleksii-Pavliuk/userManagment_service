@@ -6,8 +6,8 @@ export class NewFiatDepositEvent {
     userId: string; 
 
     constructor(userId: string,item : {}){
-    this.queueName = "deposits";
-    this.type = "deposit";
+    this.queueName = "payments";
+    this.type = "stripe_deposit";
     this.item = item;
     this.userId = userId
       }
