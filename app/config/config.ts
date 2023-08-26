@@ -15,7 +15,7 @@ interface IConfigSchema {
 	redisstring: string;
 	amqphost: string;
 	amqpport: number;
-	consulServiceName: string;
+	ServiceName: string;
 	consulHost: string;
 	consulPort: number;
 	jaegerHost: string;
@@ -129,11 +129,11 @@ const config: convict.Config<IConfigSchema> = convict({
 		env: "AMQPPORT",
 		arg: "amqpport",
 	},
-	consulServiceName: {
+	ServiceName: {
 		doc: "The name by which the service is registered in Consul. If not specified, the service is not registered",
 		format: "*",
-		default: "userManager",
-		env: "CONSUL_SERVICE_NAME",
+		default: "userManagment Service",
+		env: "SERVICE_NAME",
 	},
 	consulHost: {
 		doc: "The host where the Consul server runs",
