@@ -10,7 +10,7 @@ const SERVICE_HOST: string | undefined = ip.address();
 const SERVICE_PORT: number = config.get("port");
 const HEALTH_CHECK_URL: string = `http://${SERVICE_HOST}:${SERVICE_PORT}/health`;
 const CONSUL_ID: string = uuidv4();
-const CONSUL_SERVICE_NAME: string = config.get("consulServiceName");
+const CONSUL_SERVICE_NAME: string = config.get("ServiceName");
 
 let consul: any;
 if (CONSUL_SERVICE_NAME) {
@@ -32,14 +32,25 @@ const serviceDefinition: Consul.Agent.Service.RegisterOptions = {
 };
 
 const doGracefulShutdown = async () => {
-	if (!consul) return;
-	await consul.agent.service.deregister({ id: CONSUL_ID });
+	try{
+		if (!consul) return;
+		await consul.agent.service.deregister({ id: CONSUL_ID, name: CONSUL_SERVICE_NAME ?? "", });
+		process.exit(0)
+	} catch(err) {
+		console.error(err);
+	}
+	
 };
 
 export const register = async () => {
-	if (!consul) return;
-	await consul.agent.service.register(serviceDefinition);
-	console.log("Registred with Consul")
-	process.on("SIGTERM", doGracefulShutdown);
-	process.on("SIGINT", doGracefulShutdown);
+	try {
+		if (!consul) return;
+		await consul.agent.service.register(serviceDefinition);
+		console.log("Registred with Consul")
+		process.on("SIGTERM", doGracefulShutdown);
+		process.on("SIGINT", doGracefulShutdown);
+	} catch(err) {
+		console.error(err)
+	}
+	
 };

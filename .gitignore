@@ -13,3 +13,6 @@ app/nodemon.json
 Thumbs.db
 .DS_Store
 .vscode
+
+
+dist/

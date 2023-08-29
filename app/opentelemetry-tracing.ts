@@ -8,10 +8,10 @@ import config from "./config/config"
 
 const JAEGER_HOST = config.get("jaegerHost")
 const JAEGER_PORT = config.get("jaegerPort")
-
+const JAEGER_SERVICE_NAME: string = config.get("ServiceName");
 
 const resource : any  = new Resource({
-    [SemanticResourceAttributes.SERVICE_NAME]: "User Managment SERVICE",
+    [SemanticResourceAttributes.SERVICE_NAME]: JAEGER_SERVICE_NAME,
   });
 const sdk = new NodeSDK({
     resource  ,

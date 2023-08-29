@@ -1,21 +1,27 @@
 import { createClient } from 'redis';
-import { Repository } from 'redis-om'
 
 import config from "../config/config";
-import {abstractUserSchema} from "../models/abstract-user-model"
+
+export interface AbstractUser{
+  id: number;
+  username: string;
+  level: 0 | 1 | 2;
+  balance: number;
+  ETH: number;
+  wallets: string[];
+}
 
 const REDIS_STRING = config.get('redisstring')
 
-const redis = createClient({url: REDIS_STRING})
+const redisClient = createClient({url: REDIS_STRING})
 // Create a Redis client
+redisClient.on('error', err => console.log('Redis Client Error', err));
 export const connectRedis = async () => {
-    redis.on('error', err => console.log('Redis Client Error', err));
-    redis.connect().then(() =>{
-		console.log("Connected to the redis");}
-        ).catch((err) => {
-		    console.error("Error redis: ", err);
-        })
-};
-
-
-export const usersRedisRepo = new Repository(abstractUserSchema, redis)
+  try {
+    await redisClient.connect()
+    console.log('Connceted to Redis')
+  } catch(err) {
+    console.error(err);
+  }
+}
+export default redisClient

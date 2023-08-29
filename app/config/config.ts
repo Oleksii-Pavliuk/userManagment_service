@@ -10,8 +10,12 @@ interface IConfigSchema {
 	pgdatabase: string;
 	pgpassword: string;
 	mongostring: string;
+	mongouser: string;
+	mongopassword: string;
 	redisstring: string;
-	consulServiceName: string;
+	amqphost: string;
+	amqpport: number;
+	ServiceName: string;
 	consulHost: string;
 	consulPort: number;
 	jaegerHost: string;
@@ -26,7 +30,7 @@ const config: convict.Config<IConfigSchema> = convict({
 	env: {
 		doc: "Environoment for application",
 		format: ["development", "production", "test"],
-		default: "development",
+		default: "test",
 		env: "NODE_ENV",
 	},
 	port: {
@@ -87,6 +91,22 @@ const config: convict.Config<IConfigSchema> = convict({
 		arg: "mongostring",
 		sensitive: true,
 	},	
+	mongouser: {
+		doc: "Connection username for mongoDB",
+		format: String,
+		default: null,
+		env: "MONGOUSER",
+		arg: "mongouser",
+		sensitive: true,
+	},	
+	mongopassword: {
+		doc: "Connection password for mongoDB",
+		format: String,
+		default: null,
+		env: "MONGOPASSWORD",
+		arg: "mongopassword",
+		sensitive: true,
+	},	
 	redisstring: {
 		doc: "Connection string for redis DB",
 		format: String,
@@ -95,11 +115,25 @@ const config: convict.Config<IConfigSchema> = convict({
 		arg: "redisstring",
 		sensitive: true,
 	},
-	consulServiceName: {
+	amqphost: {
+		doc: "host for the amqp broker",
+		format: String,
+		default: null,
+		env: "AMQPHOST",
+		arg: "amqphost",
+	},
+	amqpport: {
+		doc: "port for the amqp broker",
+		format: "port",
+		default: null,
+		env: "AMQPPORT",
+		arg: "amqpport",
+	},
+	ServiceName: {
 		doc: "The name by which the service is registered in Consul. If not specified, the service is not registered",
 		format: "*",
-		default: "userManager",
-		env: "CONSUL_SERVICE_NAME",
+		default: "UserManagment Service",
+		env: "SERVICE_NAME",
 	},
 	consulHost: {
 		doc: "The host where the Consul server runs",
