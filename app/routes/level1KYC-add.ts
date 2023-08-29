@@ -9,7 +9,8 @@ import  redisClient, {AbstractUser}  from "../db/redis-connect"
 export async function level1KYCadd(req: Request, res: Response) {
 	let id = req.body.tokenUser;
   req.body.id = id;
-	User.findOneAndUpdate({id: id}, req.body, { new: true }).then(async (user) => {
+  try {
+	  let user = await User.findOneAndUpdate({id: id}, req.body, { new: true })
     // If not - create
     if (!user) {
       try {
@@ -30,21 +31,16 @@ export async function level1KYCadd(req: Request, res: Response) {
         console.log(abstractUser)
         abstractUser.level = 1;
       }
-      
       abstractUser.username = req.body.username 
-      redisClient.set(id,JSON.stringify(abstractUser)).then((userEntity) => {
-        console.log(userEntity)
-        return res.sendStatus(205);
-      }).catch((err) => {
-        console.log(err);
-        return res.sendStatus(500);
-      });
+      let userEntity = await redisClient.set(id,JSON.stringify(abstractUser))
+      console.log(userEntity)
+      return res.sendStatus(205);
     } catch (error) {
       console.log(error);
       return res.status(500).send("Error");
     };
-  }).catch((error) => {
+  }catch(error) {
     console.log(error);
     return res.status(500).send("Error");
-  });
+  };
 }

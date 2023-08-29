@@ -6,14 +6,15 @@ import {UserKYC} from "../models/userKYC-model"
    ROUTE HANDLER
 ================== */
 export async function level2KYCget(req : Request, res : Response) {
-  let id = req.body.tokenUser
-  UserKYC.findOne({id: id}).then((user) => {
-    if(!user){
-        return res.sendStatus(404)
-    }
+  
+  try{
+    let id = req.body.tokenUser;
+    let user = await UserKYC.findOne({id: id})
+
+    if(!user) return res.sendStatus(404)
     return res.status(200).send(user)
-  }).catch((error) => {
-      console.log(error);
+  }catch(error){
+      console.error(error);
       return res.status(500).send("Error");
-  });
+  };
 }
